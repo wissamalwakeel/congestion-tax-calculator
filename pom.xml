@@ -66,16 +66,7 @@
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
-                <version>LATEST</version>
-                <configuration>
-                    <targetClasses>
-                        <param>com.congestiontaxcalculator.controller</param>
-                        <param>com.congestiontaxcalculator.helpers</param>
-                    </targetClasses>
-                    <targetTests>
-                        <param>com.congestiontaxcalculator.controller</param>
-                    </targetTests>
-                </configuration>
+                <version>1.6.7</version>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

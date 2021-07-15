@@ -21,13 +21,15 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class CongestionTaxCalculatorTest {
 
-    private Date[] testDates;
+    private Date[] testDatesOneDay;
+    private Date[] testDatesMultipleDaysWithWeekendsAndHolidays;
 
     @Before
     public void init() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            testDates = objectMapper.readValue(Files.readAllBytes(Paths.get("src/test/resources/request-50.json")), CalculateTaxRequest.class).getDates();
+            testDatesOneDay = objectMapper.readValue(Files.readAllBytes(Paths.get("src/test/resources/request-50.json")), CalculateTaxRequest.class).getDates();
+            testDatesMultipleDaysWithWeekendsAndHolidays = objectMapper.readValue(Files.readAllBytes(Paths.get("src/test/resources/request-multiday-89.json")), CalculateTaxRequest.class).getDates();
         } catch (Exception e) {
             throw new BadRequestException("Error parsing the Request body to CalculateTaxRequest");
         }
@@ -36,36 +38,42 @@ public class CongestionTaxCalculatorTest {
     @Test
     public void getTaxToolFreeVehicleMotorbike() {
         CongestionTaxCalculator congestionTaxCalculator = new CongestionTaxCalculator();
-        Assert.assertEquals(0, congestionTaxCalculator.getTax(new Motorbike(), testDates));
+        Assert.assertEquals(0, congestionTaxCalculator.getTax(new Motorbike(), testDatesOneDay));
     }
 
     @Test
     public void getTaxToolFreeVehicleMilitary() {
         CongestionTaxCalculator congestionTaxCalculator = new CongestionTaxCalculator();
-        Assert.assertEquals(0, congestionTaxCalculator.getTax(new Military(), testDates));
+        Assert.assertEquals(0, congestionTaxCalculator.getTax(new Military(), testDatesOneDay));
     }
 
     @Test
     public void getTaxToolFreeVehicleDiplomat() {
         CongestionTaxCalculator congestionTaxCalculator = new CongestionTaxCalculator();
-        Assert.assertEquals(0, congestionTaxCalculator.getTax(new Diplomat(), testDates));
+        Assert.assertEquals(0, congestionTaxCalculator.getTax(new Diplomat(), testDatesOneDay));
     }
 
     @Test
     public void getTaxToolFreeVehicleEmergency() {
         CongestionTaxCalculator congestionTaxCalculator = new CongestionTaxCalculator();
-        Assert.assertEquals(0, congestionTaxCalculator.getTax(new Emergency(), testDates));
+        Assert.assertEquals(0, congestionTaxCalculator.getTax(new Emergency(), testDatesOneDay));
     }
 
     @Test
     public void getTaxToolFreeVehicleForeign() {
         CongestionTaxCalculator congestionTaxCalculator = new CongestionTaxCalculator();
-        Assert.assertEquals(0, congestionTaxCalculator.getTax(new Foreign(), testDates));
+        Assert.assertEquals(0, congestionTaxCalculator.getTax(new Foreign(), testDatesOneDay));
     }
 
     @Test
-    public void getTaxToolCar() {
+    public void getTaxToolCarOneDay() {
         CongestionTaxCalculator congestionTaxCalculator = new CongestionTaxCalculator();
-        Assert.assertEquals(50, congestionTaxCalculator.getTax(new Car(), testDates));
+        Assert.assertEquals(50, congestionTaxCalculator.getTax(new Car(), testDatesOneDay));
+    }
+
+    @Test
+    public void getTaxToolCarMultipleDaysWithWeekendsAndHolidays() {
+        CongestionTaxCalculator congestionTaxCalculator = new CongestionTaxCalculator();
+        Assert.assertEquals(50, congestionTaxCalculator.getTax(new Car(), testDatesMultipleDaysWithWeekendsAndHolidays));
     }
 }

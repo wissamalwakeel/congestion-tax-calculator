@@ -20,7 +20,7 @@ public class CongestionTaxCalculator {
 
     private static final Logger LOGGER = LogManager.getLogger(CongestionTaxCalculator.class);
 
-    private static Map<String, Integer> tollFreeVehicles = new HashMap<>();
+    private static final Map<String, Integer> tollFreeVehicles = new HashMap<>();
     private Interval[] intervals;
 
 
@@ -29,7 +29,7 @@ public class CongestionTaxCalculator {
         try {
             intervals = objectMapper.readValue(new File("src/main/resources/interval.json"), Interval[].class);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.ERROR, "Unable to read intervals from resource file for reason: {0}", e.getCause());
         }
     }
 
