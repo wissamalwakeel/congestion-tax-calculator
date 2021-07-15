@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK,classes = CongestionTaxCalculatorApplication.class)
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
-class CongestionTaxCalculatorApplicationTests {
+class CongestionTaxCalculatorApplicationTestsIT {
 
     @Autowired
     private MockMvc mockMvc;

@@ -88,7 +88,7 @@ public class CongestionTaxCalculator {
         return tollFreeVehicles.containsKey(vehicleType);
     }
 
-    public int GetTollFee(Date date)
+    private int GetTollFee(Date date)
     {
         int fee = 0;
         if (IsTollFreeDate(date)) return fee;
