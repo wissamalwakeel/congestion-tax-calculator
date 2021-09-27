@@ -13,6 +13,7 @@ import java.util.Map;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,12 +24,15 @@ public class CongestionTaxCalculator {
     private static final Map<String, Integer> tollFreeVehicles = new HashMap<>();
     private Interval[] intervals;
 
+   @Value("${intervals.source.path:src/main/resources/interval.json}")
+   private String intervalsSourcePath;
+
 
     public CongestionTaxCalculator() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            intervals = objectMapper.readValue(new File("src/main/resources/interval.json"), Interval[].class);
-        } catch (IOException e) {
+            intervals = objectMapper.readValue(new File(intervalsSourcePath), Interval[].class);
+        } catch (IOException|NullPointerException e) {
             LOGGER.log(Level.ERROR, "Unable to read intervals from resource file for reason: {0}", e.getCause());
         }
     }
