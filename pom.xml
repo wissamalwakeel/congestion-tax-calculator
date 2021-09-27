@@ -12,7 +12,7 @@
     <artifactId>congestion-tax-calculator</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>congestion-tax-calculator</name>
-    <description>Assignment homework for V-cars</description>
+    <description>Example for PIT test Presentation session By Wissam Al-Wakeel</description>
     <properties>
         <java.version>11</java.version>
     </properties>
