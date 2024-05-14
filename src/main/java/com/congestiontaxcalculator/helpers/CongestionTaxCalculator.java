@@ -24,7 +24,7 @@ public class CongestionTaxCalculator {
     private static final Map<String, Integer> tollFreeVehicles = new HashMap<>();
     private Interval[] intervals;
 
-   @Value("${intervals.source.path:src/main/resources/interval.json}")
+   @Value("${intervals.source.path}")
    private String intervalsSourcePath;
 
 
@@ -57,7 +57,7 @@ public class CongestionTaxCalculator {
         int totalDayFee = 0;
         int previousFee = 0;
         for (Date date : dates) {
-            int currentFee = GetTollFee(date);
+            int currentFee = getTollFee(date);
             if (date.getDay() == intervalStart.getDay()) {
                 if (totalDayFee < 60) {
                     long diffInMillis = date.getTime() - intervalStart.getTime();
@@ -92,11 +92,13 @@ public class CongestionTaxCalculator {
         return tollFreeVehicles.containsKey(vehicleType);
     }
 
-    private int GetTollFee(Date date)
+    private int getTollFee(final Date calculationDate)
     {
         int fee = 0;
-        if (IsTollFreeDate(date)) return fee;
-        int militaryTime = getHourMinAsInt(date);
+        if (Boolean.TRUE.equals(IsTollFreeDate(calculationDate))) {
+            return fee;
+        }
+        final int militaryTime = getHourMinAsInt(calculationDate);
         try {
             fee = Arrays.stream(intervals).filter(interval -> {
                 if (interval.getEnd() > interval.getStart()) {
